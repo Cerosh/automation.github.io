@@ -59,8 +59,6 @@ jobs:
         run: echo "GEM_HOME=~/.gem" >> $GITHUB_ENV
       - name: Install Bundler
         run: gem install bundler
-      - name: Print Working Directory
-        run: echo "Working directory" >> $(pwd)"
       - name: Build Jekyll site
         run: |
           bundle install
