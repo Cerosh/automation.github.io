@@ -57,8 +57,11 @@ jobs:
         run: mkdir -p ~/.gem
       - name: Set Gem Home
         run: echo "GEM_HOME=~/.gem" >> $GITHUB_ENV
+      - name: Install Bundler
+        run: gem install bundler
+      - name: Print Working Directory
+        run: echo "Working directory" >> $(pwd)"
       - name: Build Jekyll site
         run: |
-          gem install bundler
           bundle install
           bundle exec jekyll build
