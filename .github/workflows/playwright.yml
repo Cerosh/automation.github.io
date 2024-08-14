@@ -34,9 +34,7 @@ jobs:
       pages: write
       id-token: write
     runs-on: ubuntu-latest
-    needs:
-      - test
-      - jekyll-build
+    needs: jekyll-build
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}
@@ -47,6 +45,7 @@ jobs:
 
   jekyll-build:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - uses: actions/checkout@v4
       - name: Set up Pages
