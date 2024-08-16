@@ -1,11 +1,13 @@
 name: Playwright Tests
-
 on:
   push:
     branches: [main, master, second-branch]
   pull_request:
     branches: [main, master]
-
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 jobs:
   test:
     timeout-minutes: 60
@@ -27,41 +29,12 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-
-  deploy:
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    runs-on: ubuntu-latest
-    needs:
-      - jekyll-build
-    environment:
-      name: github-pages
-      url: ${{steps.deployment.outputs.page_url}}
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report-${{github.run_id}}
-          path: ./output
-      - name: Deploy To Github Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-
-  jekyll-build:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Pages
-        uses: actions/configure-pages@v5
-      - name: Build
-        uses: actions/jekyll-build-pages@v1
-        with:
-          destination: "./output"
+      - name: Setup pages
+        uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./output"
-          name: playwright-report-${{github.run_id}}
+          path: playwright-report/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
