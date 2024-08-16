@@ -46,9 +46,9 @@ jobs:
         run: |
           echo "GitHub Run ID: $RUN_ID"
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: playwright-report-${GITHUB_RUN_ID}
+          name: playwright-report-${{github.run_id}}
           path: "./output"
       - name: Deploy To Github Pages
         id: deployment
