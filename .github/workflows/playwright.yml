@@ -34,7 +34,9 @@ jobs:
       pages: write
       id-token: write
     runs-on: ubuntu-latest
-    needs: jekyll-build
+    needs:
+      - jekyll-build
+      - test
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}
@@ -52,8 +54,10 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build
         uses: actions/jekyll-build-pages@v1
+        with:
+          destination: "./output"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          path: "./output"
           name: playwright-report
-          path: playwright-report/
