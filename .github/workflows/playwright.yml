@@ -74,4 +74,4 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./output"
-          name: playwright-report-${GITHUB_RUN_ID}
+          name: playwright-report-${{github.run_id}}
